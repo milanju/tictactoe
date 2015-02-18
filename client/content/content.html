@@ -1,0 +1,14 @@
+<template name="content">
+
+  <div id="content-div" class="container panel panel-primary">
+  {{#if loggedOut}}
+    {{> login}}
+  {{/if}}
+  {{#if isQueued}}
+    {{> queue}}
+  {{/if}}
+  {{#if playing}}
+    {{> board}}
+  {{/if}}
+  </div>
+</template>
