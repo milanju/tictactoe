@@ -1,9 +1,9 @@
 <template name="login">
-  <div id="login-well" class="well">
-    Enter display name to play!
+  <div class="login-div animated fadeIn">
+      <h4>Enter display name to play!</h4>
+    <form class="login-form">
+      <input type="text" name="loginText" id="login-text" class="form-control" placeholder="Enter Name">
+      <button type="submit" id="login-button" class="btn btn-primary">Play!</button>
+    </form>
   </div>
-  <form class="login-form">
-    <input type="text" name="loginText" id="login-text" class="form-control" placeholder="Enter Name">
-    <button type="submit" id="login-button" class="btn btn-primary">Play!</button>
-  </form>
 </template>

@@ -53,7 +53,7 @@ Template.board.helpers({
   },
   animate: function(){
     if(this.status !== 0){
-      return "shake";
+      return "flipInX";
     } else return "";
   }
 });
