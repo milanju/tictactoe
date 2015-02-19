@@ -14,7 +14,8 @@ Meteor.setInterval(function () {
 // Helper to list Sessions
 Template.content.helpers({
   ready: function(){
-    if(UserSessions.findOne({"id": Session.get("id")}).status !== undefined){
+    var session = UserSessions.findOne({"id": Session.get("id")});
+    if(session && session.status !== undefined){
       return true;
     } else return false;
   },
@@ -22,17 +23,20 @@ Template.content.helpers({
     return UserSessions.find();
   },
   loggedOut: function(){
-    if(UserSessions.findOne({"id": Session.get("id")}) && UserSessions.findOne({"id": Session.get("id")}).status === "loggedOut"){
+    var session = UserSessions.findOne({"id": Session.get("id")});
+    if(session && session.status === "loggedOut"){
       return true;
     } else return false;
   },
   isQueued: function(){
-    if(UserSessions.findOne({"id": Session.get("id")}) && UserSessions.findOne({"id": Session.get("id")}).status === "queued"){
+    var session = UserSessions.findOne({"id": Session.get("id")});
+    if(session && session.status === "queued"){
       return true;
     } else return false;
   },
   playing: function(){
-    if(UserSessions.findOne({"id": Session.get("id")}) && UserSessions.findOne({"id": Session.get("id")}).status === "playing"){
+    var session = UserSessions.findOne({"id": Session.get("id")});
+    if(session && session.status === "playing"){
       return true;
     } else return false;
   },

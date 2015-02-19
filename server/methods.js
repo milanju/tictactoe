@@ -3,8 +3,7 @@ findBoard = function(playerId){
   if(Boards.findOne({"PlayerB": playerId}) !== undefined) return Boards.findOne({"PlayerB": playerId});
 };
 
-checkIfDraw = function(playerId){
-  var board = findBoard(playerId);
+checkIfDraw = function(playerId, board){
   var grid = board.grid;
   for(i = 0; i < 9; i++){
     if(grid[i].status === 0) return false;
@@ -15,7 +14,7 @@ checkIfDraw = function(playerId){
 checkIfWon = function(playerId){
   var board = findBoard(playerId);
   var myValue;
-  if(Boards.findOne({"PlayerA": playerId}) !== undefined) myValue = 1;
+  if(board.PlayerA === playerId) myValue = 1;
   else myValue = 2;
   var grid = board.grid;
   if(myValue === grid[0].status &&
@@ -81,16 +80,16 @@ Meteor.methods({
   },
   cleanBoards: function(id){
     var board;
-    var id1;
-    if(Boards.findOne({"PlayerA": id}) !== undefined){
-      board = Boards.findOne({"PlayerA": id});
+    var boardA = Boards.findOne({"PlayerA": id});
+    var boardB = Boards.findOne({"PlayerB": id});
+    if(boardA !== undefined){
+      board = boardA;
       Boards.update(board, { $set: {turn: "ALeft"} });
       if(board && UserSessions.findOne({"id": board.PlayerB}) === undefined){
         Boards.remove({"PlayerA": id});
       }
-    }
-    if(Boards.findOne({"PlayerB": id}) !== undefined){
-      board = Boards.findOne({"PlayerB": id});
+    } else if(boardB !== undefined){
+      board = boardB;
       Boards.update(board, { $set: {turn: "BLeft"}});
       if(board && UserSessions.findOne({"id": board.PlayerA}) === undefined){
         Boards.remove({"PlayerB": id});
@@ -99,31 +98,27 @@ Meteor.methods({
   },
   switchGrid: function(buttonId, playerId){
     var editValue;
-    var board;
-    if(Boards.findOne({"PlayerA": playerId}) !== undefined){
-      board = Boards.findOne({"PlayerA": playerId});
+    var board = findBoard(playerId);
+    if(board.PlayerA === playerId){
       editValue = 1;
-    }
-    if(Boards.findOne({"PlayerB": playerId}) !== undefined){
-      board = Boards.findOne({"PlayerB": playerId});
-      editValue = 2;
-    }
+    } else editValue = 2;
     if(board.turn === playerId && board.grid[buttonId].status === 0){
-      var newGrid = board.grid;
-      newGrid[buttonId] = {id: buttonId, status: editValue};
+      board.grid[buttonId] = {id: buttonId, status: editValue};
       if(editValue === 1) {
-        Boards.update({PlayerA: playerId}, { $set: {"grid": newGrid}});
+        Boards.update({PlayerA: playerId}, { $set: {"grid": board.grid}});
         if(checkIfWon(playerId)){
+          board.turn = "AWin";
           Boards.update({PlayerA: playerId}, { $set: {"turn": "AWin"} });
         } else Boards.update({PlayerA: playerId}, { $set: {"turn": board.PlayerB}});
       }
       if(editValue === 2) {
-        Boards.update({PlayerB: playerId}, { $set: {"grid": newGrid}});
+        Boards.update({PlayerB: playerId}, { $set: {"grid": board.grid}});
         if(checkIfWon(playerId)){
+          board.turn = "BWin";
           Boards.update({PlayerB: playerId}, { $set: {"turn": "BWin"} });
         } else Boards.update({PlayerB: playerId}, { $set: {"turn": board.PlayerA}});
       }
-      if(!(findBoard(playerId).turn === "AWin" || findBoard(playerId).turn ==="BWin") && checkIfDraw(playerId)){
+      if(!(board.turn === "AWin" || board.turn ==="BWin") && checkIfDraw(playerId, board)){
         Boards.update(findBoard(playerId), { $set: {"turn": "draw"} });
       }
     }
