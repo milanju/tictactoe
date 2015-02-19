@@ -25,6 +25,7 @@ Template.board.helpers({
   opponent: function(){
     var opponent = findOpponent();
     if(opponent) return opponent.name;
+    else return "*LEFT*";
   },
   break: function(){
     if(this.id === 2 || this.id === 5 || this.id === 8){
