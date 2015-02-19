@@ -1,6 +1,8 @@
 findBoard = function(playerId){
-  if(Boards.findOne({"PlayerA": playerId}) !== undefined) return Boards.findOne({"PlayerA": playerId});
-  if(Boards.findOne({"PlayerB": playerId}) !== undefined) return Boards.findOne({"PlayerB": playerId});
+  var board = Boards.findOne({"PlayerA": playerId});
+  if(board !== undefined) return board;
+  board = Boards.findOne({"PlayerB": playerId});
+  if(board !== undefined) return board;
 };
 
 checkIfDraw = function(playerId, board){
