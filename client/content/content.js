@@ -13,6 +13,11 @@ Meteor.setInterval(function () {
 
 // Helper to list Sessions
 Template.content.helpers({
+  ready: function(){
+    if(UserSessions.findOne({"id": Session.get("id")}).status !== undefined){
+      return true;
+    } else return false;
+  },
   session: function(){
     return UserSessions.find();
   },

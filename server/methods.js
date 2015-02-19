@@ -123,7 +123,7 @@ Meteor.methods({
           Boards.update({PlayerB: playerId}, { $set: {"turn": "BWin"} });
         } else Boards.update({PlayerB: playerId}, { $set: {"turn": board.PlayerA}});
       }
-      if(checkIfDraw(playerId)){
+      if(!(findBoard(playerId).turn === "AWin" || findBoard(playerId).turn ==="BWin") && checkIfDraw(playerId)){
         Boards.update(findBoard(playerId), { $set: {"turn": "draw"} });
       }
     }
@@ -133,7 +133,6 @@ Meteor.methods({
 Meteor.setInterval(function() {
   var now = (new Date()).getTime();
   UserSessions.find({last_seen: {$lt: (now - 15 * 1000)}}).forEach(function (user) {
-    console.log("clean board!!");
     Meteor.call("cleanBoards", user.id);
     UserSessions.remove(user);
     if(Queue.find({"id": user.id})){
