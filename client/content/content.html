@@ -1,35 +1,17 @@
 <template name="content">
-
-  <div id="content-div" class="container panel panel-primary animated fadeIn">
-  {{#unless ready}}
-    {{> loading}}
-  {{else}}
-      {{#if loggedOut}}
-    {{> login}}
-  {{/if}}
-  {{#if isQueued}}
-    {{> queue}}
-  {{/if}}
-  {{#if playing}}
-    {{> board}}
-  {{/if}}
-  {{/unless}}
-
-
+  <div class="main-content container panel panel-primary animated fadeIn">
+    {{#unless ready}}
+      {{> loading}}
+    {{else}}
+        {{#if loggedOut}}
+      {{> login}}
+    {{/if}}
+    {{#if isQueued}}
+      {{> queue}}
+    {{/if}}
+    {{#if playing}}
+      {{> board}}
+    {{/if}}
+    {{/unless}}
   </div>
-</template>
-
-<template name="loading">
-<center>
-  <div id="followingBallsG">
-    <div id="followingBallsG_1" class="followingBallsG">
-    </div>
-    <div id="followingBallsG_2" class="followingBallsG">
-    </div>
-    <div id="followingBallsG_3" class="followingBallsG">
-    </div>
-    <div id="followingBallsG_4" class="followingBallsG">
-    </div>
-  </div>
-</center>
 </template>

@@ -7,15 +7,17 @@
       <p id="status-text">{{turn}}</p>
     </div>
   </div>
-  <center><div id="grid-div">
-    {{#each board.grid}}
-      <div class="grid-{{this.status}} grid-button animated {{animate}}">
-      </div>
-      {{#if break}}<br>{{/if}}
-    {{/each}}
-  </div></center>
+  <center>
+    <div id="grid-div">
+      {{#each board.grid}}
+        <div class="grid-{{this.status}} grid-button animated {{animate}}">
+        </div>
+        {{#if break}}<br>{{/if}}
+      {{/each}}
+    </div>
+  </center>
   <br>
   <center>
-  <button id="leave-game-button" class="btn btn-danger bottom-aligned">Leave Game</button>
+    <button id="leave-game-button" class="btn btn-danger bottom-aligned">Leave Game</button>
   </center>
 </template>
